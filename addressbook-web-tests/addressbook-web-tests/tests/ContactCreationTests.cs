@@ -3,27 +3,22 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
+
 
 namespace WebAddressbookTests
 {
     [TestFixture]
     public class ContactCreationTests:TestBase
     {
-        private IWebDriver driver;
-        private StringBuilder verificationErrors;
-        private string baseURL;
-        private bool acceptNextAlert = true;
+        //private IWebDriver driver;
+        //private StringBuilder verificationErrors;
+        //private string baseURL;
+        //private bool acceptNextAlert = true;
 
        
         [Test]
         public void ContactCreationTest()
         {
-            GoToHomePage();
-            Login(new AccountData("admin", "secret"));
-            InitContactCreation();
             ContactData contact = new ContactData("Тихон", "Тихонов");
             contact.MiddleName = "Тихонович";
             contact.NickName = "Nick";
@@ -47,9 +42,11 @@ namespace WebAddressbookTests
             contact.Address2 = "ул.Успешная 52";
             contact.Phone2 = "777";
             contact.Notes = "Big notes";
-            FillContactForm(contact);
-            SubmitContactCreation();
-            ReturnToContactsPage();
+            app.Contacts
+                .InitContactCreation()
+                .FillContactForm(contact)
+                .SubmitContactCreation()
+                .ReturnToContactsPage();
         }
     
    

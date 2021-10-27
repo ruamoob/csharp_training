@@ -13,23 +13,19 @@ namespace WebAddressbookTests
        
         [Test]
         public void GroupCreationTest()
-        {
-                     
+        {                    
             GroupData group = new GroupData("aa");
             group.Header = "bb";
-            group.Footer = "cc";
-       
+            group.Footer = "cc";       
             app.Groups.Create(group);
         }
 
         [Test]
         public void EmptyGroupCreationTest()
-        {
-         
+        {         
             GroupData group = new GroupData("");
             group.Header = "";
             group.Footer = "";
-
             app.Groups.Create(group);
         }
 

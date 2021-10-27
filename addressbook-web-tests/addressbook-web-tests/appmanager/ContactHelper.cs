@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
+
 namespace WebAddressbookTests
 {
     public class ContactHelper : HelperBase
@@ -15,6 +16,56 @@ namespace WebAddressbookTests
         {
         }
 
+        public ContactHelper Modify(int p, ContactData newData)
+        {
+            manager.Navigator.GotoContactsPage();
+            InitContactModification(p);
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToContactsPage();
+            return this;
+        }
+        public ContactHelper Remove(int p)
+        {
+            manager.Navigator.GotoContactsPage();
+            SelectContact(p);
+            RemoveContact();
+            ReturnToContactsPage();
+            return this;
+        }
+
+        public ContactHelper Create(ContactData group)
+        {
+            manager.Navigator.GotoGroupsPage();
+            InitContactCreation();
+            FillContactForm(group);
+            SubmitContactCreation();
+            ReturnToContactsPage();
+            return this;
+        }
+        public ContactHelper RemoveContact()
+        {            
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            driver.SwitchTo().Alert().Accept();          
+            return this;
+        }
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactModification(int index)
+        {
+            int index_edit = index + 1;
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index_edit + "]/td[8]/a/img")).Click();
+            return this;
+        }
+        public ContactHelper SelectContact(int index)
+        {          
+            driver.FindElement(By.Id(index.ToString())).Click();
+            return this;
+        }
         public ContactHelper InitContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -101,8 +152,8 @@ namespace WebAddressbookTests
         }
         public ContactHelper ReturnToContactsPage()
         {
-            driver.FindElement(By.LinkText("home page")).Click();
-            driver.FindElement(By.LinkText("Logout")).Click();
+            driver.FindElement(By.LinkText("home")).Click();
+           // driver.FindElement(By.LinkText("Logout")).Click();
             return this;
         }
     }

@@ -8,14 +8,9 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests:TestBase
+    public class ContactCreationTests: AuthTestBase
     {
-        //private IWebDriver driver;
-        //private StringBuilder verificationErrors;
-        //private string baseURL;
-        //private bool acceptNextAlert = true;
-
-       
+     
         [Test]
         public void ContactCreationTest()
         {

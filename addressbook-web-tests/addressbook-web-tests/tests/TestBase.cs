@@ -13,27 +13,12 @@ namespace WebAddressbookTests
         protected ApplicationManager app;
 
         [SetUp]
-        public void SetupTest()
+        public void SetupApplicationManager()
         {
-            //driver = new FirefoxDriver();
-            //baseURL = "http://localhost/addressbook";
-            //verificationErrors = new StringBuilder();
-
-            //loginHelper = new LoginHelper(driver);
-            //navigator = new NavigationHelper(driver,baseURL);
-            //groupHelper = new GroupHelper(driver);
-
-            app = new ApplicationManager();
-            app.Navigator.GoToHomePage();
+            app = ApplicationManager.GetInstance();
             app.Auth.Login(new AccountData("admin", "secret"));
-        }
 
-        [TearDown]
-        public void TeardownTest()
-        {
-            app.Stop();
-        }
-             
+        }             
       
     }
 }

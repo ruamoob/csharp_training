@@ -111,11 +111,11 @@ namespace WebAddressbookTests
             Type(By.Name("email3"), contact.Email3);
             Type(By.Name("homepage"), contact.Homepage);
             Type(By.Name("ayear"), contact.Ayear);
-            //TypeByText(By.Name("abonth"), contact.Amonth);
-            //TypeByText(By.Name("aday"), contact.Aday);
+            TypeByText(By.Name("amonth"), contact.Amonth);
+            TypeByText(By.Name("aday"), contact.Aday);
             Type(By.Name("byear"), contact.Byear);
-           // TypeByText(By.Name("mbonth"), contact.Bmonth);
-           // TypeByText(By.Name("bday"), contact.Bday);
+            TypeByText(By.Name("bmonth"), contact.Bmonth);
+            TypeByText(By.Name("bday"), contact.Bday);
             Type(By.Name("address2"), contact.Address2);
             Type(By.Name("phone2"), contact.Phone2);
             Type(By.Name("notes"), contact.Notes);

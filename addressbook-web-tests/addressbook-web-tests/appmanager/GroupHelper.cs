@@ -26,10 +26,47 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(p);
-            InitGroupModification();
-            FillGroupForm(newData);
-            SubmitGroupModification();
+
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectGroup(p);
+                InitGroupModification();
+                FillGroupForm(newData);
+                SubmitGroupModification();
+                ReturnToGroupsPage();
+                return this;
+            }
+            else
+            {
+                Create(newData);
+                return this;
+            }
+        }
+
+        public GroupHelper Remove(int p)
+        {
+            manager.Navigator.GoToGroupsPage();
+
+            if (IsElementPresent(By.Name("selected[]")))
+            {
+                SelectGroup(p);
+                RemoveGroup();
+                ReturnToGroupsPage();
+                return this;
+            }
+            else
+            {
+                Create(new GroupData("aa"));
+                return this;
+            }
+        }
+
+        public GroupHelper Create(GroupData group)
+        {
+            manager.Navigator.GoToGroupsPage();
+            InitGroupsCreation();
+            FillGroupForm(group);
+            SubmitGroupCreation();
             ReturnToGroupsPage();
             return this;
         }
@@ -43,25 +80,6 @@ namespace WebAddressbookTests
         public GroupHelper InitGroupModification()
         {
             driver.FindElement(By.Name("edit")).Click();
-            return this;
-        }
-
-        public GroupHelper Remove(int p)
-        {
-            manager.Navigator.GoToGroupsPage();
-            SelectGroup(p);
-            RemoveGroup();
-            ReturnToGroupsPage();
-            return this;
-        }
-
-        public GroupHelper Create(GroupData group)
-        {
-            manager.Navigator.GoToGroupsPage();
-            InitGroupsCreation();
-            FillGroupForm(group);
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
             return this;
         }
 
@@ -101,7 +119,6 @@ namespace WebAddressbookTests
         public GroupHelper ReturnToGroupsPage()
         {
             driver.FindElement(By.LinkText("group page")).Click();
-            // driver.FindElement(By.LinkText("Logout")).Click();
             return this;
         }
     }

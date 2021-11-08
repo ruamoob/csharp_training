@@ -8,6 +8,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
 
+
 namespace WebAddressbookTests
 {
     public class GroupHelper:HelperBase
@@ -23,42 +24,40 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper Modify(int p, GroupData newData)
+        public GroupHelper NullElement()
         {
-            manager.Navigator.GoToGroupsPage();
-
             if (IsElementPresent(By.Name("selected[]")))
             {
-                SelectGroup(p);
-                InitGroupModification();
-                FillGroupForm(newData);
-                SubmitGroupModification();
-                ReturnToGroupsPage();
-                return this;
-            }
-            else
-            {
-                Create(newData);
-                return this;
-            }
-        }
-
-        public GroupHelper Remove(int p)
-        {
-            manager.Navigator.GoToGroupsPage();
-
-            if (IsElementPresent(By.Name("selected[]")))
-            {
-                SelectGroup(p);
-                RemoveGroup();
-                ReturnToGroupsPage();
                 return this;
             }
             else
             {
                 Create(new GroupData("aa"));
                 return this;
+
             }
+        }
+
+        public GroupHelper Modify(int p, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            NullElement();
+            SelectGroup(p);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;                   
+        }
+
+        public GroupHelper Remove(int p)
+        {
+            manager.Navigator.GoToGroupsPage();
+            NullElement();
+            SelectGroup(p);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
         }
 
         public GroupHelper Create(GroupData group)
@@ -83,9 +82,22 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+
+        }
+
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + (index+1) + "]/input")).Click();
             return this;
         }
 

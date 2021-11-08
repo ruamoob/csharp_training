@@ -16,42 +16,38 @@ namespace WebAddressbookTests
         {
         }
 
-        public ContactHelper Modify(int p, ContactData newData)
+        public ContactHelper NullElement()
         {
-            manager.Navigator.GoToContactsPage();
-
-            if  (IsElementPresent(By.Name("selected[]")))
-            {                        
-                InitContactModification(p);
-                FillContactForm(newData);
-                SubmitContactModification();
-                ReturnToContactsPage();
-                return this;
-            }
-            else
+            if (IsElementPresent(By.Name("selected[]")))
             {
-                Create(newData);          
-                return this;
-            }
-        }
-
-
-        public ContactHelper Remove(int p)
-        {
-            manager.Navigator.GoToContactsPage();
-
-            if  (IsElementPresent(By.Name("selected[]")))
-            {                
-                SelectContact(p);
-                RemoveContact();
-                ReturnToContactsPage();
                 return this;
             }
             else
             {
                 Create(new ContactData("Тихон", "Тихонов"));
                 return this;
+
             }
+        }
+        public ContactHelper Modify(int p, ContactData newData)
+        {
+            manager.Navigator.GoToContactsPage();
+            NullElement();                       
+            InitContactModification(p);
+            FillContactForm(newData);
+            SubmitContactModification();
+            ReturnToContactsPage();
+            return this;
+        }
+
+        public ContactHelper Remove(int p)
+        {
+            manager.Navigator.GoToContactsPage();
+            NullElement();
+            SelectContact(p);
+            RemoveContact();
+            ReturnToContactsPage();
+            return this;
         }
 
         public ContactHelper Create(ContactData contact)
@@ -77,13 +73,13 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int index)
         {
-            int index_edit = index + 1;
+            int index_edit = index + 2;
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index_edit + "]/td[8]/a/img")).Click();
             return this;
         }
         public ContactHelper SelectContact(int index)
         {
-            int index_checkbox = index + 1;
+            int index_checkbox = index + 2;
             driver.FindElement(By.XPath("/ html / body / div / div[4] / form[2] / table / tbody / tr[" + index_checkbox + "] / td[1] / input")).Click();
             return this;
         }
@@ -91,6 +87,23 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.LinkText("add new")).Click();
             return this;
+        }
+
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToContactsPage();
+
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.center"));
+
+           // ICollection<IWebElement> elements = driver.FindElement(By.XPath("/ html / body / div / div[4] / form[2] / table / tbody / tr[" + p + "] / td[2]"));
+          
+            foreach (IWebElement element in elements)
+            {
+               contacts.Add(new ContactData(element.Text, element.Text));
+            }
+            return contacts;
+
         }
 
         public ContactHelper FillContactForm(ContactData contact)

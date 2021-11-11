@@ -16,23 +16,27 @@ namespace WebAddressbookTests
         {
         }
 
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("td:nth-child(1)")).Count;
+        }
+
         public ContactHelper NullElement()
         {
             if (IsElementPresent(By.Name("selected[]")))
-            {
-                return this;
-            }
+           {
+             return this;
+           }
             else
             {
-                Create(new ContactData("Тихон", "Тихонов"));
-                return this;
+               Create(new ContactData("Тихонов", "Иван"));
+               return this;
 
-            }
+           }
         }
         public ContactHelper Modify(int p, ContactData newData)
         {
-            manager.Navigator.GoToContactsPage();
-            NullElement();                       
+            manager.Navigator.GoToContactsPage();                    
             InitContactModification(p);
             FillContactForm(newData);
             SubmitContactModification();
@@ -43,7 +47,6 @@ namespace WebAddressbookTests
         public ContactHelper Remove(int p)
         {
             manager.Navigator.GoToContactsPage();
-            NullElement();
             SelectContact(p);
             RemoveContact();
             ReturnToContactsPage();
@@ -62,12 +65,15 @@ namespace WebAddressbookTests
         public ContactHelper RemoveContact()
         {            
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             driver.SwitchTo().Alert().Accept();          
             return this;
         }
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
+            driver.SwitchTo().Alert().Accept();
             return this;
         }
 
@@ -89,22 +95,41 @@ namespace WebAddressbookTests
             return this;
         }
 
+        private List<ContactData> contactCache = null;
+
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToContactsPage();
-
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.center"));
-
-           // ICollection<IWebElement> elements = driver.FindElement(By.XPath("/ html / body / div / div[4] / form[2] / table / tbody / tr[" + p + "] / td[2]"));
-          
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-               contacts.Add(new ContactData(element.Text, element.Text));
-            }
-            return contacts;
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToContactsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td:nth-child(1)"));
+                
+                foreach (IWebElement element in elements)
+                {
 
+                //int index = element.GetEnumerator();
+                    //string lastName = element.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[2]")).Text;
+                    // string firstName = element.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[3]")).Text;
+
+
+                    //string lastName = element.FindElement(By.TagName("input")).GetAttribute("alt");
+                    //string firstName = element.FindElement(By.TagName("input")).GetAttribute("alt");
+
+                    string firstName= element.FindElement(By.CssSelector("td:nth-child(3)")).Text;
+                    string lastName = element.FindElement(By.CssSelector("td:nth-child(2)")).Text;
+
+                    contactCache.Add(new ContactData(firstName, lastName)
+                        {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                        });
+
+                }
+            }
+            return new List<ContactData>(contactCache);
         }
+
+     
 
         public ContactHelper FillContactForm(ContactData contact)
         {
@@ -124,89 +149,21 @@ namespace WebAddressbookTests
             Type(By.Name("email3"), contact.Email3);
             Type(By.Name("homepage"), contact.Homepage);
             Type(By.Name("ayear"), contact.Ayear);
-            TypeByText(By.Name("amonth"), contact.Amonth);
-            TypeByText(By.Name("aday"), contact.Aday);
+           // TypeByText(By.Name("amonth"), contact.Amonth);
+           // TypeByText(By.Name("aday"), contact.Aday);
             Type(By.Name("byear"), contact.Byear);
-            TypeByText(By.Name("bmonth"), contact.Bmonth);
-            TypeByText(By.Name("bday"), contact.Bday);
+           // TypeByText(By.Name("bmonth"), contact.Bmonth);
+          //  TypeByText(By.Name("bday"), contact.Bday);
             Type(By.Name("address2"), contact.Address2);
             Type(By.Name("phone2"), contact.Phone2);
             Type(By.Name("notes"), contact.Notes);
-
-            //driver.FindElement(By.Name("firstname")).Click();
-            //driver.FindElement(By.Name("firstname")).Clear();
-            //driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            //driver.FindElement(By.Name("lastname")).Click();
-            //driver.FindElement(By.Name("lastname")).Clear();
-            //driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
-            //driver.FindElement(By.Name("middlename")).Click();
-            //driver.FindElement(By.Name("middlename")).Clear();
-            //driver.FindElement(By.Name("middlename")).SendKeys(contact.MiddleName);
-            //driver.FindElement(By.Name("nickname")).Click();
-            //driver.FindElement(By.Name("nickname")).Clear();
-            //driver.FindElement(By.Name("nickname")).SendKeys(contact.NickName);
-            //driver.FindElement(By.Name("title")).Click();
-            //driver.FindElement(By.Name("title")).Clear();
-            //driver.FindElement(By.Name("title")).SendKeys(contact.Title);
-            //driver.FindElement(By.Name("company")).Click();
-            //driver.FindElement(By.Name("company")).Clear();
-            //driver.FindElement(By.Name("company")).SendKeys(contact.Company);
-            //driver.FindElement(By.Name("address")).Click();
-            //driver.FindElement(By.Name("address")).Clear();
-            //driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-            //driver.FindElement(By.Name("home")).Click();
-            //driver.FindElement(By.Name("home")).Clear();
-            //driver.FindElement(By.Name("home")).SendKeys(contact.Home);
-            //driver.FindElement(By.Name("mobile")).Click();
-            //driver.FindElement(By.Name("mobile")).Clear();
-            //driver.FindElement(By.Name("mobile")).SendKeys(contact.Mobile);
-            //driver.FindElement(By.Name("work")).Click();
-            //driver.FindElement(By.Name("work")).Clear();
-            //driver.FindElement(By.Name("work")).SendKeys(contact.Work);
-            //driver.FindElement(By.Name("fax")).Click();
-            //driver.FindElement(By.Name("fax")).Clear();
-            //driver.FindElement(By.Name("fax")).SendKeys(contact.Fax);
-            //driver.FindElement(By.Name("email")).Click();
-            //driver.FindElement(By.Name("email")).Clear();
-            //driver.FindElement(By.Name("email")).SendKeys(contact.Email);
-            //driver.FindElement(By.Name("email2")).Click();
-            //driver.FindElement(By.Name("email2")).Clear();
-            //driver.FindElement(By.Name("email2")).SendKeys(contact.Email2);
-            //driver.FindElement(By.Name("email3")).Click();
-            //driver.FindElement(By.Name("email3")).Clear();
-            //driver.FindElement(By.Name("email3")).SendKeys(contact.Email3);
-            //driver.FindElement(By.Name("homepage")).Click();
-            //driver.FindElement(By.Name("homepage")).Clear();
-            //driver.FindElement(By.Name("homepage")).SendKeys(contact.Homepage);
-            //driver.FindElement(By.Name("bday")).Click();
-            //new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contact.Bday);
-            //driver.FindElement(By.Name("bmonth")).Click();
-            //new SelectElement(driver.FindElement(By.Name("bmonth"))).SelectByText(contact.Bmonth);
-            //driver.FindElement(By.Name("byear")).Click();
-            //driver.FindElement(By.Name("byear")).Clear();
-            //driver.FindElement(By.Name("byear")).SendKeys(contact.Byear);
-            //driver.FindElement(By.Name("aday")).Click();
-            //new SelectElement(driver.FindElement(By.Name("aday"))).SelectByText(contact.Aday);
-            //driver.FindElement(By.Name("amonth")).Click();
-            //new SelectElement(driver.FindElement(By.Name("amonth"))).SelectByText(contact.Amonth);
-            //driver.FindElement(By.Name("ayear")).Click();
-            //driver.FindElement(By.Name("ayear")).Clear();
-            //driver.FindElement(By.Name("ayear")).SendKeys(contact.Ayear);
-            //driver.FindElement(By.Name("address2")).Click();
-            //driver.FindElement(By.Name("address2")).Clear();
-            //driver.FindElement(By.Name("address2")).SendKeys(contact.Address2);
-            //driver.FindElement(By.Name("phone2")).Click();
-            //driver.FindElement(By.Name("phone2")).Clear();
-            //driver.FindElement(By.Name("phone2")).SendKeys(contact.Phone2);
-            //driver.FindElement(By.Name("notes")).Click();
-            //driver.FindElement(By.Name("notes")).Clear();
-            //driver.FindElement(By.Name("notes")).SendKeys(contact.Notes);
             return this;
         }
 
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("//input[@value='Enter']")).Click();
+            contactCache = null;
             return this;
         }
         public ContactHelper ReturnToContactsPage()

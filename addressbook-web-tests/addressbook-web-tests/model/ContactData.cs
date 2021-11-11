@@ -35,8 +35,10 @@ namespace WebAddressbookTests
 
         public ContactData(string firstname, string lastname)
         {
-            this.firstname = firstname;
-            this.lastname = lastname;           
+          // this.firstname = firstname;
+          //  this.lastname = lastname;
+            FirstName = firstname;
+            LastName = lastname;
         }
 
         public bool Equals(ContactData other)
@@ -49,17 +51,20 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return LastName == other.LastName + " " + other.FirstName;
+            return FirstName == other.FirstName;
+           // LastName == other.LastName;
         }
 
         public override int GetHashCode()
         {
-            return LastName.GetHashCode();
+            return FirstName.GetHashCode();
+            //return FirstName.GetHashCode() + LastName.GetHashCode();
         }
 
         public override string ToString()
         {
-            return "name=" + LastName + " "+ FirstName;
+            return "name=" + FirstName;
+           // return "name=" + FirstName + " " + LastName;
         }
 
         public int CompareTo(ContactData other)
@@ -68,31 +73,15 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return LastName.CompareTo(other.LastName+" "+ other.FirstName);
+            return FirstName.CompareTo(other.FirstName);
+            //return FirstName.CompareTo(other.FirstName) + LastName.CompareTo(other.LastName);
         }
 
-        public string LastName
-        {
-            get
-            {
-                return lastname;
-            }
-            set
-            {
-                lastname = value;
-            }
-        }
-        public string FirstName
-        {
-            get
-            {
-                return firstname;
-            }
-            set
-            {
-                firstname = value;
-            }
-        }
+        public string LastName { get; set; } 
+   
+        public string FirstName { get; set; } 
+
+        public string Id { get; set; } 
 
         public string MiddleName {get { return middlename; } set { middlename = value;} }
         public string NickName { get { return nickname; } set { nickname = value; } }       

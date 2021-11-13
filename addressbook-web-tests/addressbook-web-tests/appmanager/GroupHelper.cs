@@ -27,7 +27,7 @@ namespace WebAddressbookTests
 
         public GroupHelper NullElement()
         {
-            if (IsElementPresent(By.Name("selected[]")))
+            if (IsElementPresent(By.CssSelector("span.group")))
             {
                 return this;
             }

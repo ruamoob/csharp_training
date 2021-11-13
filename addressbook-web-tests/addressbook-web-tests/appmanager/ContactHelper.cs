@@ -23,7 +23,7 @@ namespace WebAddressbookTests
 
         public ContactHelper NullElement()
         {
-            if (IsElementPresent(By.Name("selected[]")))
+            if (IsElementPresent(By.CssSelector("td:nth-child(1)")))
            {
              return this;
            }
@@ -73,7 +73,6 @@ namespace WebAddressbookTests
         {
             driver.FindElement(By.Name("update")).Click();
             contactCache = null;
-            driver.SwitchTo().Alert().Accept();
             return this;
         }
 
@@ -102,22 +101,20 @@ namespace WebAddressbookTests
             if (contactCache == null)
             {
                 contactCache = new List<ContactData>();
-                manager.Navigator.GoToContactsPage();
-                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td:nth-child(1)"));
-                
+                manager.Navigator.GoToHomePage();
+                //ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td:nth-child(1)"));
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
+
                 foreach (IWebElement element in elements)
                 {
-
-                //int index = element.GetEnumerator();
-                    //string lastName = element.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[2]")).Text;
-                    // string firstName = element.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[3]")).Text;
-
-
                     //string lastName = element.FindElement(By.TagName("input")).GetAttribute("alt");
                     //string firstName = element.FindElement(By.TagName("input")).GetAttribute("alt");
 
-                    string firstName= element.FindElement(By.CssSelector("td:nth-child(3)")).Text;
+                    //firstName = firstName.Remove(0, 8).Trim(new char[] { ')'}).Substring(0, firstName.IndexOf(" ")+1);                   
+                    //lastName = lastName.Remove(0, lastName.LastIndexOf(" ")+1).Trim(new char[] { ')' });
+
                     string lastName = element.FindElement(By.CssSelector("td:nth-child(2)")).Text;
+                    string firstName = element.FindElement(By.CssSelector("td:nth-child(3)")).Text;
 
                     contactCache.Add(new ContactData(firstName, lastName)
                         {

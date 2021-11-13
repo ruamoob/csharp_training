@@ -19,28 +19,25 @@ namespace WebAddressbookTests
         {
         //Проверка на наличие хотя бы одной записи в таблице
             app.Contacts.NullElement();
-         
-            //List<ContactData> oldContacts = app.Contacts.GetContactList();
-            //ContactData toBeRemoved = oldContacts[0];
+
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            ContactData toBeRemoved = oldContacts[0];
 
             app.Contacts.Remove(0);
 
-            //Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
+            Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
 
-            //List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = app.Contacts.GetContactList();
 
-            //oldContacts.RemoveAt(0);
-            //Assert.AreEqual(oldContacts, newContacts);
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
 
-            //foreach (ContactData contact in newContacts)
-            //{
-            //    Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
-            //}
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
 
-        private bool IsElementPresent(By by)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

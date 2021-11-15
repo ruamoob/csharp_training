@@ -71,9 +71,13 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
+
+            if (Object.ReferenceEquals(FirstName, other.FirstName))
+            {
+                return LastName.CompareTo(other.LastName);
+            }
             return FirstName.CompareTo(other.FirstName);
         }
-
 
         public string LastName { get; set; }
         public string FirstName { get; set; }

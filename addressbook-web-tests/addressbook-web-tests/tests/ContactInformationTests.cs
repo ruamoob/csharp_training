@@ -22,5 +22,17 @@ namespace WebAddressbookTests
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
             Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
+
+        [Test]
+        public void TestContactInformationDetails()
+        {
+            string fromDetails = app.Contacts.GetContactInformationFromDetails(0);
+            ContactData fromEditForm = app.Contacts.GetContactInformationFromEditForm(0);
+
+            //verification , приведение к верхнему регистру т.к. месяц в поле amonth на форме редактирования контакта
+            //считывается в нижнем регистре, а на форме детальной информации amonth с заглавной буквы
+            Assert.AreEqual(fromDetails.ToUpper(), fromEditForm.AllDetailContacts.ToUpper()); 
+
+        }
     }
 }

@@ -49,15 +49,15 @@ namespace WebAddressbookTests
                     MiddleName = GenerateRandomString(30),
                     Notes = GenerateRandomString(30),
                     Address = GenerateRandomString(30),
-                    Home = GenerateRandomString(30),
-                    Mobile = GenerateRandomString(30),
-                    Work = GenerateRandomString(30)
+                    Home = GenerateRandomString(20),
+                    Mobile = GenerateRandomString(20),
+                    Work = GenerateRandomString(20),
+                    Fax = GenerateRandomString(20)
                 });
             }
             return contacts;
 
             //app.Contacts.Create(contact);
-
             //Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
 
             //List<ContactData> newContacts = app.Contacts.GetContactList();

@@ -176,13 +176,13 @@ namespace WebAddressbookTests
                     if (Ayear != null)
                     { aa = Convert.ToString(DateTime.Now.Year - Convert.ToInt32(Ayear)); } else { aa = ""; };
 
-                    return (CleanUp2(FirstName) + CleanUp2(MiddleName) + CleanUp2(LastName) +
-                        CleanUp2(NickName) + CleanUp2(Title) + CleanUp2(Company) +
-                        CleanUp2(Address) + CleanUp2(Home) + CleanUp2(Mobile) + CleanUp2(Work) + CleanUp2(Fax) +
-                        CleanUp2(Email) + CleanUp2(Email2) + CleanUp2(Email3) +
-                        CleanUp2(Homepage) + CleanUp2(Bday) + "." + CleanUp2(Bmonth) 
-                        + CleanUp2(Byear) + bb  + CleanUp2(Aday) + "." + CleanUp2(Amonth) + CleanUp2(Ayear) 
-                        + aa + CleanUp2(Address2) + CleanUp2(Notes)).Trim();
+                 return (FirstName + " " + MiddleName + " " + LastName + "\r\n"
+                 + NickName + "\r\n" + Title + "\r\n" + Company + "\r\n" + Address + "\r\n\r\nH: "
+                 + Home + "\r\nM: " + Mobile + "\r\nW: " + Work + "\r\nF: " + Fax + "\r\n\r\n"
+                 + Email + "\r\n" + Email2 + "\r\n" + Email3 + "\r\nHomepage:\r\n" + Homepage + "\r\n\r\nBirthday "
+                 + Bday + ". " + Bmonth +" " + Byear + " (" + bb + ")" + "\r\nAnniversary "
+                 + Aday + ". " + Amonth + " " + Ayear + " (" + aa + ")" + "\r\n\r\n"
+                 + Address2 + "\r\n\r\nP: " + Phone2 + "\r\n\r\n" + Notes);
                 }
             }
             set
@@ -199,14 +199,5 @@ namespace WebAddressbookTests
             }            return Regex.Replace(phone, "[ ()-]", "") + "\r\n";
         }
 
-        private string CleanUp2(string text)
-        {
-            if (text == null || text == "")
-            {
-                return "";
-            }
-           // return text.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
-           return Regex.Replace(text, "[ ()-]", "");
-        }
     }
 }

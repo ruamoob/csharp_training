@@ -50,7 +50,9 @@ namespace WebAddressbookTests
             manager.Navigator.GoToContactsPage();
             InitContactDetails(index);
             string content = driver.FindElement(By.Id("content")).Text;
-            return Regex.Replace(content, "(H:|M:|W:|P:|F:|Homepage:|Birthday|Anniversary|nome|[ ()\r\n-])", ""); 
+            //return Regex.Replace(content, "(H:|M:|W:|P:|F:|Homepage:|Birthday|Anniversary|nome|[ ()\r\n-])", ""); 
+            // return Regex.Replace(content, "([\r\n])", "");
+            return content;
         }
 
         public ContactData GetContactInformationFromEditForm(int index)

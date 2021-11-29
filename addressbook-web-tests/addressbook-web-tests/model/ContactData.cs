@@ -158,7 +158,6 @@ namespace WebAddressbookTests
             }
         }
 
-
         public string AllDetailContacts
         {
             get

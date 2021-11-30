@@ -53,7 +53,10 @@ namespace WebAddressbookTests
             Address = adress;
             NickName = nickName;
         }
+        public ContactData()
+        {
 
+        }
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))

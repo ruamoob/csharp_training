@@ -59,6 +59,7 @@ namespace WebAddressbookTests
             return JsonConvert.DeserializeObject<List<GroupData>>(
                 File.ReadAllText(@"groups.json"));
         }
+
         public static IEnumerable<GroupData> GroupDataFromExcelFile()
         {
             List<GroupData> groups = new List<GroupData>();
@@ -82,14 +83,11 @@ namespace WebAddressbookTests
         }
 
 
-        [Test, TestCaseSource("GroupDataFromExcelFile")]
-        public void GroupCreationTest(GroupData group)
-        {                    
-
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
+        public void GroupCreationTestXml(GroupData group)
+        {
             List<GroupData> oldGroups = app.Groups.GetGroupList();
-
             app.Groups.Create(group);
-
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
@@ -97,28 +95,9 @@ namespace WebAddressbookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-   
         }
 
-        //[Test]
-        //public void EmptyGroupCreationTest(GroupData group)
-        //{         
-        //    //GroupData group = new GroupData("");
-        //    //group.Header = "";
-        //    //group.Footer = "";
-
-        //    List<GroupData> oldGroups = app.Groups.GetGroupList();
-
-        //    app.Groups.Create(group);
-
-        //    Assert.AreEqual(oldGroups.Count+1, app.Groups.GetGroupCount());
-
-        //    List<GroupData> newGroups = app.Groups.GetGroupList();
-        //    oldGroups.Add(group);
-        //    oldGroups.Sort();
-        //    newGroups.Sort();
-        //    Assert.AreEqual(oldGroups, newGroups);
-        //}
+      
 
     }
 }

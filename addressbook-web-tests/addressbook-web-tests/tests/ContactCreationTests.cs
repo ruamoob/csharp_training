@@ -4,6 +4,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
 using NUnit.Framework;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
+using System.IO;
 
 
 namespace WebAddressbookTests
@@ -39,7 +43,6 @@ namespace WebAddressbookTests
             //contact.Notes = "Big notes";
             // List<ContactData> oldContacts = app.Contacts.GetContactList();
 
-
             List<ContactData> contacts = new List<ContactData>();
 
             for (int i = 0; i < 5; i++)
@@ -56,19 +59,22 @@ namespace WebAddressbookTests
                 });
             }
             return contacts;
-
-            //app.Contacts.Create(contact);
-            //Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
-
-            //List<ContactData> newContacts = app.Contacts.GetContactList();
-            //oldContacts.Add(contact);
-            //oldContacts.Sort();
-            //newContacts.Sort();
-            //Assert.AreEqual(oldContacts, newContacts);
-
         }
 
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>)
+                 new XmlSerializer(typeof(List<ContactData>))
+                 .Deserialize(new StreamReader(@"contact.xml"));
+        }
+
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+                File.ReadAllText(@"contact.json"));
+        }
+
+         [Test, TestCaseSource("RandomContactDataProvider")]       
         public void ContactCreationTest(ContactData contact)
         {
             List<ContactData> oldContacts = app.Contacts.GetContactList();
@@ -83,5 +89,38 @@ namespace WebAddressbookTests
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
         }
+
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
+        public void ContactCreationTestXml(ContactData contact)
+        {
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
+            app.Contacts.Create(contact);
+
+            Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+        }
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        public void ContactCreationTestJson(ContactData contact)
+        {
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+
+            app.Contacts.Create(contact);
+
+            Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
+
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+        }
+
     }
     }

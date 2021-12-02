@@ -8,7 +8,6 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
 
-
 namespace WebAddressbookTests
 {
     public class GroupHelper:HelperBase
@@ -69,7 +68,7 @@ namespace WebAddressbookTests
             manager.Navigator.GoToGroupsPage();
             InitGroupsCreation();
             FillGroupForm(group);
-            SubmitGroupCreation();
+            SubmitGroupCreation();           
             ReturnToGroupsPage();
             return this;
         }

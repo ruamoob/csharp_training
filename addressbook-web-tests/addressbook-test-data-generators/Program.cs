@@ -36,14 +36,14 @@ namespace addressbook_test_data_generators
             List<ContactData> contacts = new List<ContactData>();
             for (int i = 0; i < count; i++)
             {
-                contacts.Add(new ContactData(TestBase.GenerateRandomString(10), TestBase.GenerateRandomString(10))
+                contacts.Add(new ContactData(TestBase.GenerateRandomString(5), TestBase.GenerateRandomString(5))
                 {
-                    MiddleName = TestBase.GenerateRandomString(10),
-                    Notes = TestBase.GenerateRandomString(10),
-                    Address = TestBase.GenerateRandomString(20),
-                    Home = TestBase.GenerateRandomString(10),
-                    Mobile = TestBase.GenerateRandomString(10),
-                    Work = TestBase.GenerateRandomString(10)
+                    MiddleName = TestBase.GenerateRandomString(5),
+                    Notes = TestBase.GenerateRandomString(5),
+                    Address = TestBase.GenerateRandomString(5),
+                    Home = TestBase.GenerateRandomString(5),
+                    Mobile = TestBase.GenerateRandomString(5),
+                    Work = TestBase.GenerateRandomString(5)
                 });
             }
 

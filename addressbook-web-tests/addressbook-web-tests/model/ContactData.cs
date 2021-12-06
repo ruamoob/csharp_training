@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string firstname;
@@ -68,7 +70,7 @@ namespace WebAddressbookTests
                 return true;
             }
 
-            return LastName == other.LastName && FirstName == other.FirstName;
+        return LastName == other.LastName && FirstName == other.FirstName;
         }
 
         public override int GetHashCode()
@@ -97,21 +99,46 @@ namespace WebAddressbookTests
             return FirstName.CompareTo(other.FirstName);
         }
 
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public string Id { get; set; }
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts.Where(x=>x.Deprecated=="0000-00-00 00:00:00")  select c).ToList();
+            }
+        }
 
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
+        [Column(Name = "lastname")]
+        public string LastName { get; set; }
+        [Column(Name = "firstname")]
+        public string FirstName { get; set; }
+        [Column(Name = "id"), PrimaryKey, Identity]
+        public string Id { get; set; }
+        [Column(Name = "middlename")]
         public string MiddleName { get { return middlename; } set { middlename = value; } }
+        [Column(Name = "nickname")]
         public string NickName { get { return nickname; } set { nickname = value; } }
+        [Column(Name = "title")]
         public string Title { get { return title; } set { title = value; } }
+        [Column(Name = "company")]
         public string Company { get { return company; } set { company = value; } }
+        [Column(Name = "address")]
         public string Address { get { return address; } set { address = value; } }
+        [Column(Name = "home")]
         public string Home { get { return home; } set { home = value; } }
+        [Column(Name = "mobile")]
         public string Mobile { get { return mobile; } set { mobile = value; } }
+        [Column(Name = "work")]
         public string Work { get { return work; } set { work = value; } }
+        [Column(Name = "fax")]
         public string Fax { get { return fax; } set { fax = value; } }
+        [Column(Name = "email")]
         public string Email { get { return email; } set { email = value; } }
+        [Column(Name = "email2")]
         public string Email2 { get { return email2; } set { email2 = value; } }
+        [Column(Name = "email3")]
         public string Email3 { get { return email3; } set { email3 = value; } }
         public string Homepage { get { return homepage; } set { homepage = value; } }
         public string Bday { get { return bday; } set { bday = value; } }
@@ -124,6 +151,7 @@ namespace WebAddressbookTests
         public string Phone2 { get { return phone2; } set { phone2 = value; } }
         public string Notes { get { return notes; } set { notes = value; } }
 
+    
         public string AllPhones
         {
             get

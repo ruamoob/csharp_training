@@ -83,16 +83,29 @@ namespace WebAddressbookTests
             return groups;   
         }
 
-
+        //Через UI
         [Test, TestCaseSource("GroupDataFromXmlFile")]
         public void GroupCreationTestXml(GroupData group)
         {
-            // List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            app.Groups.Create(group);
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        //Через БД
+        [Test, TestCaseSource("GroupDataFromXmlFile")]
+        public void GroupCreationTestXmlForDB(GroupData group)
+        {
             List<GroupData> oldGroups = GroupData.GetAll();
             app.Groups.Create(group);
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
 
-            // List<GroupData> newGroups = app.Groups.GetGroupList();
             List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();

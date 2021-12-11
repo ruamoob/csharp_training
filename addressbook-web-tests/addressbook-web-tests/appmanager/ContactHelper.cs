@@ -124,6 +124,12 @@ namespace WebAddressbookTests
             return driver.FindElements(By.CssSelector("td:nth-child(1)")).Count;
         }
 
+        public string GetContactId()
+        {
+            manager.Navigator.GoToHomePage();
+            return driver.FindElements(By.XPath("//tr/td/input[@name='selected[]']")).Last().GetAttribute("value");
+        }
+
         public ContactHelper NullElement()
         {
             if (IsElementPresent(By.CssSelector("td:nth-child(1)")))
@@ -192,7 +198,7 @@ namespace WebAddressbookTests
         public void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
-            ClearGroupFilter();
+            ClearGroupFilterNone();
             SelectContact(contact.Id);
             SelectGroupToAdd(group.Name);
             CommitAddingContactToGroup();
@@ -360,6 +366,11 @@ namespace WebAddressbookTests
         public void ClearGroupFilter()
         {
             new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        public void ClearGroupFilterNone()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[none]");
         }
 
         //public void SelectGroupToRemove(string id)

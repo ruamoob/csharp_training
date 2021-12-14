@@ -12,13 +12,14 @@ namespace maintis_tests
    public class TestBase
     {
         public static bool PERFORM_LONG_UI_CHECKS=false;
+
         protected ApplicationManager app;
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
-            app.Auth.Login(new AccountData("admin", "secret"));
+          //  app.Auth.Login(new AccountData("admin", "secret"));
 
         }
         public static Random rnd = new Random();

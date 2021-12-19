@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace maintis_tests
 {
+
     public class ProjectData : IEquatable<ProjectData>, IComparable<ProjectData>
     {
         public ProjectData(String name)
@@ -13,6 +14,8 @@ namespace maintis_tests
             Name = name;
         }
 
+
+        public string Id { get; set; }
         public string Name { get; set; }
 
         public bool Equals(ProjectData other)

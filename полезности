@@ -11,3 +11,8 @@ C:\Program Files\Common Files\Oracle\Java\javapath
 
 administrator/root
 maintis/maintis
+
+
+http://localhost/mantisbt-2.25.2/api/soap/mantisconnect.php?WSDL
+
+

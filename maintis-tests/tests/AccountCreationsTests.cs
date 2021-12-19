@@ -24,13 +24,22 @@ namespace maintis_tests
         [Test]
         public void TesAccountRegistration()
         {
+
             AccountData account = new AccountData()
             {
-                Name = "testuser",
+                Name = "testuser5",
                 Password = "password",
-                Email = "testuser@localhost.localdomain"
+                Email = "testuser5@localhost.localdomain"
             };
 
+            List<AccountData> accounts = app.Admin.GetAllAccounts();
+            AccountData ExistingAccount= accounts.Find(x => x.Name == account.Name);
+
+            if (ExistingAccount != null)
+            {
+                app.Admin.DeleteAccount(ExistingAccount);
+            }
+          
             //app.James.Delete(account);
             //app.James.Add(account);
             app.Registration.Register(account);

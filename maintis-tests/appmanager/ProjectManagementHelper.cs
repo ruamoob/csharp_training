@@ -81,7 +81,8 @@ namespace maintis_tests
 
         public ProjectManagementHelper SelectProject(String name)
         {
-            driver.FindElement(By.XPath("(//a[contains(text(),'" + name + "')])[2]")).Click();
+            //driver.FindElement(By.XPath("(//a[contains(text(),'" + name + "')])[2]")).Click();
+            driver.FindElement(By.XPath("(//a[contains(@href, 'manage_proj_edit_page.php') and contains(text(), '" + name + "')])")).Click();
             return this;
         }
 
@@ -104,7 +105,9 @@ namespace maintis_tests
 
         public int GetProjectsCount()
         {
-            return driver.FindElements(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr")).Count;
+            //return driver.FindElements(By.XPath("//div[@id='main-container']/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr")).Count;
+            manager.Navigator.GoToProjectsPage();
+            return driver.FindElements(By.XPath("//tr/td/a")).Count;
         }
 
     }

@@ -13,13 +13,23 @@ namespace maintis_tests
             [Test]
             public void AddProjectTest()
             {
-                ProjectData project = new ProjectData("AddTest");
-                List<ProjectData> oldProjects = app.Projects.GetProjectsList();
-                app.Projects.Create(project);
+            AccountData account = new AccountData()
+            {
+                Name = "administrator",
+                Password = "root"
+            };
+
+                ProjectData project = new ProjectData("AddTest "+ DateTime.Now.ToString("hh:mm:ss"));
+
+                List<ProjectData> oldProjects = app.API.GetProjectsList(account);
+                app.API.Create(account, project);
+
 
                 Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectsCount());
 
-                List<ProjectData> newProjects = app.Projects.GetProjectsList();
+               //List<ProjectData> newProjects = app.Projects.GetProjectsList();
+               List<ProjectData> newProjects = app.API.GetProjectsList(account);
+
                 oldProjects.Add(project);
                 oldProjects.Sort();
                 newProjects.Sort();

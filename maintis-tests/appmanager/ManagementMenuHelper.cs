@@ -19,14 +19,14 @@ namespace maintis_tests
             this.baseURL = baseURL;
         }
 
-        public void GoToHomePage()
-        {
-            if (driver.Url == baseURL)
-            {
-                return;
-            }
-            driver.Navigate().GoToUrl(baseURL);
-        }
+        //public void GoToHomePage()
+        //{
+        //    if (driver.Url == baseURL)
+        //    {
+        //        return;
+        //    }
+        //    driver.Navigate().GoToUrl(baseURL);
+        //}
 
         public void GoToProjectsPage()
         {

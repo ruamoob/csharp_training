@@ -20,6 +20,9 @@ namespace maintis_tests
         public RegistrationHelper Registration { get; set; }
         public FtpHelper Ftp { get; set; }
         public JamesHelper James { get;  set; }
+        public MailHelper Mail { get; set; }
+        public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
         public LoginHelper Auth { get; set; }
         public ManagementMenuHelper Navigator { get; set; }
         public ProjectManagementHelper Projects { get; set; }
@@ -32,10 +35,13 @@ namespace maintis_tests
 
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            baseURL = "http://localhost";
+            baseURL = "http://localhost/mantisbt-2.25.2";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
+            Mail = new MailHelper(this);
+            Admin = new AdminHelper(this,baseUrl);
+            API = new APIHelper(this);
 
             Auth = new LoginHelper(this);
             Navigator = new ManagementMenuHelper(this, baseURL);
@@ -61,7 +67,7 @@ namespace maintis_tests
             if (!app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance.driver.Url = "http://localhost/mantisbt-2.25.2/login_page.php";
+                newInstance.driver.Url =baseUrl+ "/login_page.php";
                // newInstance.driver.Url = baseUrl;
                 app.Value = newInstance;
             }
